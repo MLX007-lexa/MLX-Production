@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0c0c">
+<title>MLX Production</title>
+<meta name="description" content="MLX Production: asset library, rental, apps and shop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0b0c0c; --ink:#ECEAE4; --mute:#8b8982; --edge:rgba(236,234,228,.85); --teal:#1FB3A5;
+  --f:'Archivo','Helvetica Neue',Arial,sans-serif; --m:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  box-sizing:border-box;background:var(--bg);
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit;margin:0;padding:0;border-radius:0}
+body{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;background:var(--bg);color:var(--ink);font-family:var(--f);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.nogl body{background-image:radial-gradient(circle,rgba(236,234,228,.12) 1px,transparent 1.6px);background-size:22px 22px}
+#gl,.vig{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.vig{background:radial-gradient(ellipse 80% 75% at 50% 50%,transparent 40%,rgba(11,12,12,.85) 100%);transition:opacity 1.2s}
+.blk{position:fixed;inset:0;z-index:5;background:#000;opacity:0;pointer-events:none;transition:opacity 1.2s ease-in}
+body.dk .blk{opacity:1}
+body.out .vig{opacity:0}
+body.out main,body.out footer{opacity:0;pointer-events:none;transition:opacity 1.1s ease}
+main,footer{position:relative;z-index:1}
+:focus-visible{outline:2px solid var(--teal);outline-offset:4px}
+a{color:inherit;text-decoration:none}
+
+main{width:100%;max-width:520px;padding:clamp(56px,14vh,140px) 20px 40px;flex:1}
+h1{text-align:center;font-weight:800;font-stretch:80%;font-size:clamp(44px,12vw,60px);line-height:1;letter-spacing:-.02em}
+.links{list-style:none;margin-top:44px;display:grid;gap:12px}
+
+.btn{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;
+  background:var(--bg);border:2px solid var(--edge);overflow:hidden;isolation:isolate;transition:color .3s}
+.btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--ink);
+  clip-path:polygon(0 0,0 0,-34px 100%,0 100%);
+  transition:clip-path .5s cubic-bezier(.65,0,.25,1)}
+.btn:hover,.btn:focus-visible{color:var(--bg)}
+.btn:hover::before,.btn:focus-visible::before{clip-path:polygon(0 0,calc(100% + 34px) 0,100% 100%,0 100%)}
+.t{display:flex;flex-direction:column;gap:2px}
+.n{font-weight:700;font-size:19px;letter-spacing:-.01em}
+.d{font-size:13px;color:var(--mute);transition:color .3s}
+.btn:hover .d,.btn:focus-visible .d{color:inherit;opacity:.7}
+.ar{flex:none;width:18px;height:18px;transition:transform .4s cubic-bezier(.65,0,.25,1)}
+.btn:hover .ar,.btn:focus-visible .ar{transform:translateX(5px)}
+
+footer{width:100%;max-width:520px;padding:0 20px 28px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--m);font-size:11px;letter-spacing:.06em;color:var(--mute)}
+footer a{transition:color .2s}footer a:hover{color:var(--ink)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="vig" aria-hidden="true"></div>
+<div class="blk" aria-hidden="true"></div>
+<main>
+  <h1>MLX Production</h1>
+
+  <ul class="links">
+    <li><a class="btn" href="https://mlxproduction.cz/asset-librery.html">
+      <span class="t"><span class="n">Asset Library</span><span class="d">Footage, sound and stills</span></span>
+      <svg class="ar" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 9h14M10 3l6 6-6 6"/></svg></a></li>
+    <li><a class="btn" href="https://mlxproduction.cz/rental.html">
+      <span class="t"><span class="n">Rental</span><span class="d">Cinema and photo gear hire</span></span>
+      <svg class="ar" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 9h14M10 3l6 6-6 6"/></svg></a></li>
+    <li><a class="btn" href="https://mlxproduction.cz/asset-apps.html">
+      <span class="t"><span class="n">Asset Apps</span><span class="d">Tools for your edit</span></span>
+      <svg class="ar" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 9h14M10 3l6 6-6 6"/></svg></a></li>
+    <li><a class="btn" href="https://mlxproduction.cz/shop.html">
+      <span class="t"><span class="n">Shop</span><span class="d">Products from MLX</span></span>
+      <svg class="ar" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 9h14M10 3l6 6-6 6"/></svg></a></li>
+  </ul>
+</main>
+<footer>
+  <a href="mailto:info@mlxproduction.cz">info@mlxproduction.cz</a>
+  <span>© <span id="y">2026</span> MLX Production</span>
+</footer>
+<script>
+document.getElementById('y').textContent=new Date().getFullYear();
+
+/* Everything below runs on the GPU (WebGL2): the lens-warped dot field, the twinkles and the hyperspace jump.
+   One draw call per layer, no per-dot JavaScript. If WebGL2 is missing the page falls back to plain CSS dots. */
+(function(){
+  var cv=document.getElementById('gl'),reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var gl=null;try{gl=cv.getContext('webgl2',{alpha:true,premultipliedAlpha:true,antialias:false,powerPreference:'low-power'})}catch(e){}
+  var TAU=Math.PI*2,U0=.25,K=.27,PITCH=22,BASE=1.1,VX=-.9,VY=-2.2,OM=.0068,TA=1.3,MAXS=6500;
+  var W,H,D,R,n,GN=0,CS=1,SN=0,T0=performance.now(),jumping=false,jt0=0,jhref='',tm=[],streakN=0,live=[],nextT=0,tmp={};
+  var G={},ST={},TW={},TB=new Float32Array(70);
+
+  function sm(a,b,x){x=Math.min(1,Math.max(0,(x-a)/(b-a)));return x*x*(3-2*x)}
+  function mod(a){return((a%PITCH)+PITCH)%PITCH}
+
+  /* ---------- shared click flow ---------- */
+  function begin(href,dk,go){
+    jumping=true;jt0=performance.now();jhref=href;
+    document.body.classList.add('out');
+    tm=[setTimeout(function(){document.body.classList.add('dk')},dk),
+        setTimeout(function(){window.location.href=jhref},go),
+        setTimeout(reset,9000)];
+  }
+  function reset(){tm.forEach(clearTimeout);jumping=false;streakN=0;live.length=0;document.body.classList.remove('out','dk')}
+  [].forEach.call(document.querySelectorAll('.btn'),function(a){
+    a.addEventListener('click',function(e){
+      if(e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||reduce||jumping)return;
+      e.preventDefault();
+      if(gl)begin(a.href,(TA+2.7)*1000,(TA+4)*1000);else begin(a.href,1000,2300);
+    });
+  });
+  window.addEventListener('pageshow',function(e){if(e.persisted)reset()});
+
+  if(!gl){document.documentElement.classList.add('nogl');return}
+
+  /* ---------- GL helpers ---------- */
+  function sh(t,src){var s=gl.createShader(t);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s));return s}
+  function prog(v,f){var p=gl.createProgram();gl.attachShader(p,sh(gl.VERTEX_SHADER,'#version 300 es\n'+v));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,'#version 300 es\nprecision highp float;\n'+f));gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p));return p}
+  function loc(p,names){var o={p:p};names.split(' ').forEach(function(k){o[k]=gl.getUniformLocation(p,k)});return o}
+
+  var WARP='const float U0=.25,K=.27;\n';
+
+  try{
+    /* dot field: every vertex is one lattice point, the vertex shader drifts, rotates and lens-warps it */
+    G=loc(prog(
+      WARP+'layout(location=0) in vec2 aIJ;uniform vec2 uRes,uOff,uRot;uniform float uR,uP,uDpr;'+
+      'out vec2 vDir,vRad;out float vE,vA,vSz;\n'+
+      'void main(){vec2 l=aIJ*uP+uOff;vec2 s=vec2(l.x*uRot.x-l.y*uRot.y,l.x*uRot.y+l.y*uRot.x);float d=length(s),u=d/uR;'+
+      'if(u>1.35){gl_Position=vec4(3.,3.,3.,1.);gl_PointSize=0.;return;}'+
+      'float ex=max(0.,u-U0),g=u-K*ex*ex,gp=1.-2.*K*ex;vec2 dir=d>0.?s/d:vec2(1.,0.);vec2 pos=dir*uR*g;'+
+      'float t=clamp((u-.25)/1.05,0.,1.),e=t*t*(3.-2.*t);'+
+      'float rr=max(.35,1.1*gp),rt=max(.35,1.1*(u>0.?g/u:1.))*(1.+.6*e*e);'+
+      'vDir=dir;vRad=vec2(rr,rt);vE=e;vA=.34*(1.-.45*e);vSz=2.*(max(rr,rt)*1.15+2.4*e*e+.4)+3.;'+
+      'gl_Position=vec4(pos.x/(uRes.x*.5),-pos.y/(uRes.y*.5),0.,1.);gl_PointSize=vSz*uDpr;}',
+      'in vec2 vDir,vRad;in float vE,vA,vSz;uniform float uA;out vec4 o;\n'+
+      'void main(){vec2 p=(gl_PointCoord-.5)*vSz;float xr=dot(p,vDir),yr=-p.x*vDir.y+p.y*vDir.x;'+
+      'float cw=clamp((1.-length(vec2(xr/vRad.x,yr/vRad.y)))*min(vRad.x,vRad.y)+.5,0.,1.);float tr=0.;'+
+      'if(vE>.04){float off=2.4*vE*vE+.4;vec2 r2=vRad*1.15;tr=clamp((1.-length(vec2((xr-off)/r2.x,yr/r2.y)))*min(r2.x,r2.y)+.5,0.,1.)*min(1.,vA*2.2*vE);}'+
+      'float wa=cw*vA*uA;tr*=uA;o=vec4(vec3(.925,.918,.894)*wa+vec3(.122,.702,.647)*tr*(1.-wa),wa+tr*(1.-wa));}'),
+      'uRes uOff uRot uR uP uDpr uA');
+    G.vao=gl.createVertexArray();G.buf=gl.createBuffer();
+    gl.bindVertexArray(G.vao);gl.bindBuffer(gl.ARRAY_BUFFER,G.buf);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
+
+    /* twinkles: a handful of soft glowing points */
+    TW=loc(prog(
+      'layout(location=0) in vec2 aP;layout(location=1) in vec4 aS;layout(location=2) in float aK;uniform vec2 uRes;uniform float uDpr;'+
+      'out vec4 vS;out float vK,vSz;\n'+
+      'void main(){vS=aS;vK=aK;vSz=14.*max(aS.x,aS.y)+2.;gl_Position=vec4(aP.x/(uRes.x*.5),-aP.y/(uRes.y*.5),0.,1.);gl_PointSize=vSz*uDpr;}',
+      'in vec4 vS;in float vK,vSz;out vec4 o;\n'+
+      'float Gr(float q){float a=mix(.5,.3,clamp(q/.18,0.,1.));if(q>.18)a=mix(.3,.1,clamp((q-.18)/.27,0.,1.));if(q>.45)a=mix(.1,.025,clamp((q-.45)/.3,0.,1.));if(q>.75)a=mix(.025,0.,clamp((q-.75)/.25,0.,1.));return q>=1.?0.:a;}\n'+
+      'void main(){vec2 p=(gl_PointCoord-.5)*vSz;vec2 d=vS.zw;float xr=dot(p,d),yr=-p.x*d.y+p.y*d.x,rr=vS.x,rt=vS.y;'+
+      'float g=Gr(length(vec2(xr,yr*rr/rt))/(rr*7.))*vK;'+
+      'float c=clamp((1.-length(vec2(xr/(rr*1.6),yr/(rt*1.6))))*min(rr,rt)*1.6+.5,0.,1.)*.8*vK;'+
+      'o=vec4(vec3(.925,.918,.894)*c+vec3(.122,.702,.647)*g*(1.-c),c+g*(1.-c));}'),
+      'uRes uDpr');
+    TW.vao=gl.createVertexArray();TW.buf=gl.createBuffer();
+    gl.bindVertexArray(TW.vao);gl.bindBuffer(gl.ARRAY_BUFFER,TW.buf);
+    gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,28,0);
+    gl.enableVertexAttribArray(1);gl.vertexAttribPointer(1,4,gl.FLOAT,false,28,8);
+    gl.enableVertexAttribArray(2);gl.vertexAttribPointer(2,1,gl.FLOAT,false,28,24);
+
+    /* hyperspace: each star is an instanced quad from its tail to its head, with a core line and a soft glow */
+    ST=loc(prog(
+      'layout(location=0) in vec2 aC;layout(location=1) in vec2 aXY;layout(location=2) in vec2 aR;'+
+      'uniform vec2 uRes,uSh,uCR;uniform float uR,uV,uVi,uTr,uAmp;out vec2 vC;out float vA;\n'+
+      'float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}\n'+
+      'void main(){const float L=2.95;float w=2.+aR.y*uVi;float cyc=floor(w/L);w-=cyc*L;float z=3.-w;vec2 xy=aXY;'+
+      'if(cyc>0.){float an=6.2831853*h(vec2(aR.x,cyc));float rd=uR*(.35+2.1*pow(h(vec2(cyc,aR.x+7.)),.6));xy=vec2(cos(an),sin(an))*rd;}'+
+      'vec2 hd=xy/z,tl=xy/(z+aR.y*uV*uTr);vec2 dv=hd-tl;float len=length(dv);vec2 nr=len>0.?vec2(-dv.y,dv.x)/len:vec2(0.,1.);'+
+      'float rad=length(hd)/uR;float hw=5.*(1.+.8*min(rad,1.5));'+
+      'vec2 p=mix(tl,hd,aC.x)+nr*aC.y*hw;p=vec2(p.x*uCR.x-p.y*uCR.y,p.x*uCR.y+p.y*uCR.x)+uSh;'+
+      'vC=aC;vA=sm3(rad)*uAmp*(.45+.55*h(vec2(aR.x,3.)))*(.8+.5*min(rad,1.5));gl_Position=vec4(p.x/(uRes.x*.5),-p.y/(uRes.y*.5),0.,1.);}'.replace('sm3(rad)','smoothstep(.1,.6,rad)'),
+      'in vec2 vC;in float vA;out vec4 o;\n'+
+      'void main(){float s=vC.y;float core=exp(-s*s*30.),glow=exp(-s*s*4.)*.5;'+
+      'vec3 c=(vec3(1.)*core+vec3(.45,.85,1.)*glow)*pow(vC.x,1.4)*vA;o=vec4(c,max(c.r,max(c.g,c.b)));}'),
+      'uRes uSh uCR uR uV uVi uTr uAmp');
+    ST.vao=gl.createVertexArray();ST.cb=gl.createBuffer();ST.xb=gl.createBuffer();ST.rb=gl.createBuffer();
+    gl.bindVertexArray(ST.vao);
+    gl.bindBuffer(gl.ARRAY_BUFFER,ST.cb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([0,-1,0,1,1,-1,1,1]),gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
+    gl.bindBuffer(gl.ARRAY_BUFFER,ST.xb);gl.enableVertexAttribArray(1);gl.vertexAttribPointer(1,2,gl.FLOAT,false,0,0);gl.vertexAttribDivisor(1,1);
+    gl.bindBuffer(gl.ARRAY_BUFFER,ST.rb);gl.enableVertexAttribArray(2);gl.vertexAttribPointer(2,2,gl.FLOAT,false,0,0);gl.vertexAttribDivisor(2,1);
+    gl.bindVertexArray(null);
+  }catch(err){gl=null;document.documentElement.classList.add('nogl');return}
+
+  gl.enable(gl.BLEND);gl.clearColor(0,0,0,0);
+
+  /* same warp on the CPU, used only for ~10 twinkles and the one-off star snapshot */
+  function wp(lx,ly,o){
+    var sx=lx*CS-ly*SN,sy=lx*SN+ly*CS,d=Math.sqrt(sx*sx+sy*sy),u=d/R;if(u>1.35)return false;
+    var ex=Math.max(0,u-U0),g=u-K*ex*ex,gp=1-2*K*ex,dx=d?sx/d:1,dy=d?sy/d:0,e=sm(.25,1.3,u);
+    o.x=dx*R*g;o.y=dy*R*g;o.dx=dx;o.dy=dy;o.rr=Math.max(.35,BASE*gp);o.rt=Math.max(.35,BASE*(u?g/u:1))*(1+.6*e*e);
+    return Math.abs(o.x)<W/2+6&&Math.abs(o.y)<H/2+6;
+  }
+  function size(){
+    D=Math.min(window.devicePixelRatio||1,2);W=window.innerWidth;H=window.innerHeight;
+    cv.width=Math.round(W*D);cv.height=Math.round(H*D);gl.viewport(0,0,cv.width,cv.height);
+    R=Math.hypot(W,H)/2;n=Math.ceil(1.35*R/PITCH);
+    var m=2*n+3,a=new Float32Array(m*m*2),k=0;GN=m*m;
+    for(var i=-n-1;i<=n+1;i++)for(var j=-n-1;j<=n+1;j++){a[k++]=i;a[k++]=j}
+    gl.bindBuffer(gl.ARRAY_BUFFER,G.buf);gl.bufferData(gl.ARRAY_BUFFER,a,gl.STATIC_DRAW);
+  }
+  function pick(oxT,oyT){
+    var bs=[].map.call(document.querySelectorAll('.btn,h1,footer a,footer>span'),function(b){return b.getBoundingClientRect()});
+    for(var t=0;t<40;t++){
+      var lx=Math.floor((Math.random()*2-1)*n)*PITCH+oxT,ly=Math.floor((Math.random()*2-1)*n)*PITCH+oyT;
+      if(!wp(lx,ly,tmp))continue;
+      var x=tmp.x+W/2,y=tmp.y+H/2;if(x<W*.2||x>W*.8)continue;
+      if(bs.some(function(b){return x>b.left-24&&x<b.right+24&&y>b.top-24&&y<b.bottom+24}))continue;
+      return{ax:lx-oxT,ay:ly-oyT};
+    }
+    return null;
+  }
+  function buildStars(ox,oy){
+    var pts=[];
+    for(var i=-n-1;i<=n+1;i++)for(var j=-n-1;j<=n+1;j++){if(wp(i*PITCH+ox,j*PITCH+oy,tmp))pts.push(tmp.x,tmp.y)}
+    var cnt=pts.length/2,idx=[];for(var q=0;q<cnt;q++)idx.push(q);
+    for(var q2=cnt-1;q2>0;q2--){var r=Math.floor(Math.random()*(q2+1)),t=idx[q2];idx[q2]=idx[r];idx[r]=t}
+    streakN=Math.min(cnt,MAXS,Math.floor(W*H/150));
+    var xy=new Float32Array(streakN*2),rr=new Float32Array(streakN*2);
+    for(var s=0;s<streakN;s++){xy[s*2]=pts[idx[s]*2];xy[s*2+1]=pts[idx[s]*2+1];rr[s*2]=Math.random()*100;rr[s*2+1]=.6+.8*Math.random()}
+    gl.bindBuffer(gl.ARRAY_BUFFER,ST.xb);gl.bufferData(gl.ARRAY_BUFFER,xy,gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER,ST.rb);gl.bufferData(gl.ARRAY_BUFFER,rr,gl.STATIC_DRAW);
+    live.length=0;
+  }
+
+  function frame(now){
+    if(!reduce)requestAnimationFrame(frame);
+    var t=reduce?0:(now-T0)/1000,oxT=VX*t,oyT=VY*t,ox=mod(oxT),oy=mod(oyT);CS=Math.cos(OM*t);SN=Math.sin(OM*t);
+    var sJ=jumping?(now-jt0)/1000-TA:-1;
+    if(sJ>=0&&!streakN)buildStars(ox,oy);
+    var gridA=sJ>=0?1-sm(0,.35,sJ):1;
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    if(gridA>.002){
+      gl.blendFunc(gl.ONE,gl.ONE_MINUS_SRC_ALPHA);gl.useProgram(G.p);gl.bindVertexArray(G.vao);
+      gl.uniform2f(G.uRes,W,H);gl.uniform2f(G.uOff,ox,oy);gl.uniform2f(G.uRot,CS,SN);
+      gl.uniform1f(G.uR,R);gl.uniform1f(G.uP,PITCH);gl.uniform1f(G.uDpr,D);gl.uniform1f(G.uA,gridA);
+      gl.drawArrays(gl.POINTS,0,GN);
+    }
+
+    if(!reduce&&sJ<0){
+      if(live.length<10&&now>nextT){var d=pick(oxT,oyT);if(d){d.t0=now;d.dur=4500+Math.random()*3000;live.push(d)}nextT=now+600+Math.random()*1200}
+      var c=0;
+      for(var q=live.length-1;q>=0;q--){
+        var L=live[q],p=(now-L.t0)/L.dur;if(p>=1||!wp(L.ax+oxT,L.ay+oyT,tmp)){live.splice(q,1);continue}
+        var b=c*7;TB[b]=tmp.x;TB[b+1]=tmp.y;TB[b+2]=tmp.rr;TB[b+3]=tmp.rt;TB[b+4]=tmp.dx;TB[b+5]=tmp.dy;TB[b+6]=Math.min(1,Math.sin(p*Math.PI)*1.7);c++;
+      }
+      if(c){
+        gl.blendFunc(gl.ONE,gl.ONE_MINUS_SRC_ALPHA);gl.useProgram(TW.p);gl.bindVertexArray(TW.vao);
+        gl.uniform2f(TW.uRes,W,H);gl.uniform1f(TW.uDpr,D);
+        gl.bindBuffer(gl.ARRAY_BUFFER,TW.buf);gl.bufferData(gl.ARRAY_BUFFER,TB.subarray(0,c*7),gl.DYNAMIC_DRAW);
+        gl.drawArrays(gl.POINTS,0,c);
+      }
+    }
+
+    if(sJ>=0&&streakN){
+      var v=.15+7*Math.pow(sJ,1.6),vi=.15*sJ+7*Math.pow(sJ,2.6)/2.6,ka=sm(.15,1.1,sJ),rot=(Math.random()*2-1)*.007*ka,am=7*ka;
+      gl.blendFunc(gl.ONE,gl.ONE);gl.useProgram(ST.p);gl.bindVertexArray(ST.vao);
+      gl.uniform2f(ST.uRes,W,H);gl.uniform2f(ST.uSh,(Math.random()*2-1)*am,(Math.random()*2-1)*am);gl.uniform2f(ST.uCR,Math.cos(rot),Math.sin(rot));
+      gl.uniform1f(ST.uR,R);gl.uniform1f(ST.uV,v);gl.uniform1f(ST.uVi,vi);gl.uniform1f(ST.uTr,.05+.03*sJ);gl.uniform1f(ST.uAmp,sm(0,.4,sJ));
+      gl.drawArraysInstanced(gl.TRIANGLE_STRIP,0,4,streakN);
+    }
+  }
+
+  size();requestAnimationFrame(frame);
+  var rz=0;window.addEventListener('resize',function(){cancelAnimationFrame(rz);rz=requestAnimationFrame(function(){size();if(reduce)frame(0)})});
+})();
+</script>
+</body>
+</html>
