@@ -426,15 +426,60 @@ header .wrap{gap:16px}
 footer{content-visibility:auto;contain-intrinsic-size:auto 420px}
 @media(pointer:coarse){.ctl button{min-height:44px;min-width:56px}.bar{height:44px}.acts2 .ic{width:44px;height:44px}.lnk{padding:10px 0}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* ---------- fade through black between sites + region prompt (matches the MLX Production landing page) ---------- */
+.blk{position:fixed;inset:0;z-index:9999;background:#000;opacity:0;pointer-events:none;animation:blkin .9s cubic-bezier(.4,0,.2,1) both}
+@keyframes blkin{from{opacity:1}to{opacity:0}}
+@keyframes blkout{from{opacity:0}to{opacity:1}}
+body.dk .blk{pointer-events:auto;animation:blkout .9s cubic-bezier(.4,0,.2,1) both}
+#region{position:fixed;z-index:60;top:calc(68px + env(safe-area-inset-top,0px));right:24px;padding:14px;
+  background:rgba(18,18,17,.94);border:1px solid rgba(239,237,232,.28);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  opacity:0;transform:translateY(-8px);pointer-events:none;
+  transition:opacity .9s cubic-bezier(.4,0,.2,1),transform .9s cubic-bezier(.4,0,.2,1)}
+#region.on{opacity:1;transform:none;pointer-events:auto;transition-duration:.6s}
+#region[hidden]{display:none}
+.rgn-bar{position:absolute;left:0;bottom:0;height:2px;width:100%;background:#EFEDE8;opacity:.9;box-shadow:0 0 8px 1px rgba(239,237,232,.55),0 -2px 10px rgba(239,237,232,.25);transform-origin:left;will-change:transform}
+.rgn-sw{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 14px;
+  border:1px solid rgba(239,237,232,.85);overflow:hidden;isolation:isolate;transition:color .3s;
+  font:400 11px "JetBrains Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:#EFEDE8}
+.rgn-sw::before{content:"";position:absolute;inset:0;z-index:-1;background:#EFEDE8;clip-path:polygon(0 0,0 0,-34px 100%,0 100%);transition:clip-path .5s cubic-bezier(.65,0,.25,1)}
+.rgn-sw:hover,.rgn-sw:focus-visible{color:#121211}
+.rgn-sw:hover::before,.rgn-sw:focus-visible::before{clip-path:polygon(0 0,calc(100% + 34px) 0,100% 100%,0 100%)}
+.rgn-sw svg{flex:none;width:12px;height:12px;transition:transform .4s cubic-bezier(.65,0,.25,1)}
+.rgn-sw:hover svg,.rgn-sw:focus-visible svg{transform:translateX(4px)}
+.rgn-x{position:absolute;top:-11px;right:-11px;width:22px;height:22px;display:grid;place-items:center;background:#121211;border:1px solid rgba(239,237,232,.28);cursor:pointer;color:#EFEDE8;overflow:hidden;isolation:isolate;transition:color .3s,border-color .3s}
+.rgn-x::before{content:"";position:absolute;inset:0;z-index:-1;background:#E5484D;clip-path:polygon(0 0,0 0,-10px 100%,0 100%);transition:clip-path .45s cubic-bezier(.65,0,.25,1)}
+.rgn-x:hover,.rgn-x:focus-visible{color:#121211;border-color:#E5484D}
+.rgn-x:hover::before,.rgn-x:focus-visible::before{clip-path:polygon(0 0,calc(100% + 10px) 0,100% 100%,0 100%)}
+.rgn-x svg{width:9px;height:9px}
+@media (max-width:760px){#region{left:16px;right:24px;top:auto;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateY(8px)}#region.on{transform:none}}
+/* currency switch in the header: compact, faint outline, a slanted thumb slides between the two options */
+.cur{position:relative;isolation:isolate;display:inline-grid;grid-template-columns:1fr 1fr;flex:none;border:1px solid var(--line);font:400 10px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase}
+nav .cur{margin-left:auto;margin-right:-12px}
+nav #gb{margin-left:0}
+.cur::before{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:0;width:50%;background:var(--tx);clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
+.cur[data-i="1"]::before{transform:translateX(100%);clip-path:polygon(7px 0,100% 0,100% 100%,0 100%)}
+.cur.ready::before{transition:transform .5s cubic-bezier(.65,0,.25,1),clip-path .5s cubic-bezier(.65,0,.25,1)}
+.cur button{padding:6px 11px;line-height:1;color:var(--mute);text-align:center}
+.cur.ready button{transition:color .35s}
+/* light surface: solid black outline; over the dark hero it keeps the faint light one */
+.cur{border-color:#121211;transition:border-color .3s}
+.dark .cur{border-color:var(--line)}
+.cur button:hover{color:var(--tx)}
+.cur button[aria-pressed="true"],.cur button[aria-pressed="true"]:hover{color:var(--bg)}
+@media(pointer:coarse){.cur button{padding:10px 14px}}
+@media(max-width:820px){nav .cur{margin:16px 0 0;align-self:flex-start}nav .cur+#gb{margin-top:12px}}
+@media (prefers-reduced-motion:reduce){.blk,body.dk .blk{animation:none}body.dk .blk{opacity:1}#region{transition:none}}
 </style>
 </head>
 <body>
+<div class="blk" aria-hidden="true"></div>
 <a class="skip" href="#app">Skip to content</a>
 <header id="hd"><div class="wrap">
 <a class="logo" href="#home" aria-label="MLX Assets home">MLX ASSETS<i></i></a>
 <button class="menu mono" id="menu" aria-expanded="false" aria-controls="nav">Menu</button>
 <nav id="nav" class="mono" aria-label="Main">
 <div class="links"><a href="#library" data-n="library">Library</a><a href="#collections" data-n="collections">Collections</a><a href="#compatibility" data-n="compatibility">Compatibility</a><a href="#about" data-n="about">About</a></div>
+<div class="cur" id="cur" role="group" aria-label="Currency"><button type="button" data-c="EUR" aria-pressed="true">EUR</button><button type="button" data-c="USD" aria-pressed="false">USD</button></div>
 <a class="btn" id="gb" href="#licence" data-n="licence">Get licence</a>
 </nav>
 </div></header>
@@ -446,13 +491,21 @@ footer{content-visibility:auto;contain-intrinsic-size:auto 420px}
 <form id="nl" novalidate><div class="search"><input id="em" type="email" placeholder="Email address" aria-label="Email address" autocomplete="email" aria-describedby="nm"><button class="mono">Join</button></div><div class="msg mono" id="nm" role="status"></div></form></div>
 <div class="fcols">
 <div><div class="mono">Library</div><a href="#library-video">Video</a><a href="#library-audio">Audio</a><a href="#library-photo">Photo</a><a href="#collections">Collections</a></div>
-<div><div class="mono">Company</div><a href="#about">About</a><a href="mailto:hello@mlxassets.com">Contact</a></div>
+<div><div class="mono">Company</div><a href="#about">About</a><a href="mailto:assets@mlxproduction.eu">Contact</a></div>
 <div><div class="mono">Licence</div><a href="#licence">Get the licence</a><a href="#compatibility">Compatibility</a><a href="#about">Terms</a><a href="#faq">FAQ</a></div>
 </div>
-<div class="fbar mono"><span>© 2026 MLX Assets</span><a href="#about">Licence</a><a href="mailto:hello@mlxassets.com">Contact</a><a href="#about">Terms</a></div>
+<div class="fbar mono"><span>© 2026 MLX Assets</span><a href="#about">Licence</a><a href="mailto:assets@mlxproduction.eu">Contact</a><a href="#about">Terms</a></div>
 </div></footer>
 <div id="toast" role="status" aria-live="polite"></div>
 <div id="rl" class="sr" aria-live="polite"></div>
+
+<div id="region" role="region" aria-label="Region">
+  <a class="rgn-sw" href="https://mlxproduction.cz/asset-librery.html" id="rgn-go">Switch to CZ version
+    <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 9h14M10 3l6 6-6 6"/></svg></a>
+  <button type="button" class="rgn-x" id="rgn-x" aria-label="Dismiss">
+    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 2l8 8M10 2l-8 8"/></svg></button>
+  <span class="rgn-bar" id="rgn-bar" aria-hidden="true"></span>
+</div>
 
 <script>
 (() => {
@@ -594,7 +647,14 @@ const bars = (n, seed) => { const r = rng(seed); return Array.from({length: n}, 
 /* ---------- state ---------- */
 const S = {type: 'all', q: '', sort: 'featured', co: null};
 let PASS = 0; // timestamp when the licence was bought, 0 = none
-const PRICE = 149;
+const PRICE = 149; // base price in EUR
+const CURS = ['EUR', 'USD']; // first one is the default; the header switch offers these two
+const FX = {EUR: 1, USD: 1.12, CZK: 25}; // BACKEND: live exchange rates (CZK matches the rental page)
+let CUR = CURS[0];
+try { const c = localStorage.getItem('mlxcur'); if (CURS.includes(c)) CUR = c; } catch (e) {}
+const money = () => { const n = Math.round(PRICE * FX[CUR]); return CUR === 'CZK' ? n.toLocaleString('cs-CZ') + '\u00a0K\u010d' : CUR === 'USD' ? '$' + n : '\u20ac' + n; };
+const priceTag = () => `<span data-price>${money()}</span>`;
+function syncCur() { $('#cur').dataset.i = CURS.indexOf(CUR); $$('#cur button').forEach(b => b.setAttribute('aria-pressed', b.dataset.c === CUR)); $$('[data-price]').forEach(e => { e.textContent = money(); }); }
 let RET = null; // where to go back to after buying
 try { PASS = +localStorage.getItem('mlxpass') || 0; } catch (e) {}
 try { const old = JSON.parse(localStorage.getItem('mlxown') || '{}'), k = Object.values(old); if (!PASS && k.length) { PASS = Math.min(...k); localStorage.setItem('mlxpass', PASS); } } catch (e) {}
@@ -653,7 +713,7 @@ const cards = list => list.map(card).join('');
 function home() {
   const fmts = [['Video', 'clips', 0], ['Audio', 'tracks', 2], ['Photo', 'images', 3]];
   const steps = [['Preview', 'Watch or listen in full. Previews carry a watermark.'], ['License', 'One payment unlocks the whole library.'], ['Download', 'Pick a resolution or bitrate and drop it into your edit.']];
-  const nav = [['Library', D.length + ' assets', '#library'], ['Licence', PASS ? 'Active' : '$' + PRICE + ' once', '#licence'], ['Compatibility', COMPAT.length + ' apps', '#compatibility'], ['Licence terms', 'Commercial · perpetual', '#about'], ['FAQ', '4 answers', '#faq']];
+  const nav = [['Library', D.length + ' assets', '#library'], ['Licence', PASS ? 'Active' : priceTag() + ' once', '#licence'], ['Compatibility', COMPAT.length + ' apps', '#compatibility'], ['Licence terms', 'Commercial · perpetual', '#about'], ['FAQ', '4 answers', '#faq']];
   const trio = [0, 1, 2].map(() => [...Array(CO.length).keys()]).flat();
   app.innerHTML = `<section class="dark hero"><canvas class="bg" id="hc" aria-hidden="true"></canvas><div class="wrap hero-in">
 <div><div class="mono">MLX Assets</div><h1><span>Footage.</span><span>Sound.</span><span>Stills.</span></h1><p>Find it, license it, drop it into your edit.</p></div>
@@ -663,7 +723,7 @@ function home() {
 <div class="fcards">${fmts.map(([t, u, i], k) => `<a class="fcard" data-r style="--i:${k}" href="#library-${t.toLowerCase()}"><img alt="" decoding="async" src="${thumb(i)}"><span class="mono">${count(a => a.t === t)} ${u}</span><div class="row end"><h3>${t}</h3><span class="ar" aria-hidden="true">→</span></div></a>`).join('')}</div></div></section>
 <section class="sec"><div class="wrap"><div class="sh" data-r><div><span class="mono">Shot as sets</span><h2>Collections</h2></div><div class="cav"><button id="cp" aria-label="Previous collections">←</button><button id="cn" aria-label="Next collections">→</button><a class="mono" href="#collections">All collections</a></div></div></div>
 <div class="car"><div class="trk" id="trk">${trio.map(c => card(c).replace(' data-r', '').replace(/ style="--i:\d"/, '')).join('')}</div></div></section>
-<section class="dark cta-band"><div class="wrap g"><div data-r><span class="mono">Licensing</span><h2>One licence.<br>Whole library.</h2><p>Need more than a clip or two? The licence unlocks every asset for $${PRICE}, once.</p>
+<section class="dark cta-band"><div class="wrap g"><div data-r><span class="mono">Licensing</span><h2>One licence.<br>Whole library.</h2><p>Need more than a clip or two? The licence unlocks every asset for ${priceTag()}, once.</p>
 <div class="acts">${PASS ? '<a class="btn solid" href="#licence">Your licence <span class="a">→</span></a>' : '<a class="btn solid" href="#licence">Get the licence <span class="a">→</span></a>'}<a class="btn" href="#compatibility">Compatibility</a></div></div>
 <ol class="steps">${steps.map(([h, t], k) => `<li data-r style="--i:${k}"><span class="mono">0${k + 1}</span><div><b>${h}</b><p>${t}</p></div></li>`).join('')}</ol></div></section>
 <section class="navband"><div class="wrap"><div class="sh" data-r><h2>Browse the site</h2></div>
@@ -835,7 +895,7 @@ function asset(n) {
   app.innerHTML = `<section class="pg"><div class="ad"><div class="frame pv${own ? ' own' : ''}"><canvas id="cv" width="1280" height="800" role="img" aria-label="${esc(a.n)}, ${a.t.toLowerCase()} preview, ${a.s}"></canvas>${still ? '' : '<div class="ctl"><button id="pb">Play</button><div class="bar" id="sk" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" aria-valuetext="0 of 10 seconds"><i id="pr"></i></div><span id="tm">00:00 / 00:10</span></div>'}</div>
 <div><div class="toprow"><a class="mono back" href="#library"><span class="ar" aria-hidden="true">←</span>Library</a><button class="mono shr" id="sh" type="button">Share<span class="ar" aria-hidden="true">↗</span></button></div><h1 class="pt">${a.n}</h1>
 <div class="dl">${rows.map(r => `<div><span class="mono">${r[0]}</span><span>${r[1]}</span></div>`).join('')}</div>
-${own ? '' : `<div class="price">$${PRICE}</div><button class="btn solid" id="lic">Get the licence <span class="a">→</span></button><p class="note mute">One payment unlocks this and every other asset.</p>`}
+${own ? '' : `<div class="price">${priceTag()}</div><button class="btn solid" id="lic">Get the licence <span class="a">→</span></button><p class="note mute">One payment unlocks this and every other asset.</p>`}
 <div class="mono" style="margin:32px 0 8px">Download</div><div class="dq">${QS[a.t].map((q, k) => `<button data-k="${k}"${own ? '' : ' disabled'}><span>${q[0]}</span><span class="mono">${own ? 'Download' : 'Locked'}</span></button>`).join('')}</div>
 </div></div>
 <div class="sh" style="margin-top:80px"><h2>More like this</h2></div><div class="grid lg">${rel.map(tile).join('')}</div></section>`;
@@ -949,7 +1009,7 @@ function licence() {
   const date = PASS ? new Date(PASS).toLocaleDateString('en-GB', {day: 'numeric', month: 'long', year: 'numeric'}) : '';
   if (!PASS) {
     app.innerHTML = `<section class="pg"><h1 class="pt"><b>One licence.</b><br><span class="mute">Every project.</span></h1><div class="plans one">
-<div class="plan"><span class="mono" style="color:var(--tx)"><i class="dot"></i>MLX Assets licence</span><div class="price">$${PRICE} <small>once</small></div><span class="mono">Pay once · yours to keep</span><button class="btn solid mono" id="buy">Get the licence</button></div>
+<div class="plan"><span class="mono" style="color:var(--tx)"><i class="dot"></i>MLX Assets licence</span><div class="price">${priceTag()} <small>once</small></div><span class="mono">Pay once · yours to keep</span><button class="btn solid mono" id="buy">Get the licence</button></div>
 <div class="plan"><span class="mono">What you get</span><span class="mono">Every asset in the library</span><span class="mono">Unlimited downloads</span><span class="mono">No watermarks</span><span class="mono">Commercial use</span><span class="mono">Royalty-free</span><span class="mono">Perpetual · worldwide</span></div></div></section>`;
     $('#buy').onclick = e => {
       const b = e.currentTarget; b.disabled = true; b.textContent = 'Activating…';
@@ -1059,6 +1119,7 @@ app.addEventListener('click', e => {
   else if (d) { e.preventDefault(); const n = +d.dataset.dl; if (!owned()) toast('Get the licence to download.'); location.hash = 'asset-' + n; }
 });
 app.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('[data-fav],[data-dl]')) { e.preventDefault(); e.target.click(); } else if (e.key === ' ' && e.target.matches && e.target.matches('a.tile')) { e.preventDefault(); e.target.click(); } });
+$('#cur').addEventListener('click', e => { const b = e.target.closest('button[data-c]'); if (!b || b.dataset.c === CUR) return; CUR = b.dataset.c; try { localStorage.setItem('mlxcur', CUR); } catch (x) {} syncCur(); });
 $('#menu').onclick = () => { const o = $('#nav').classList.toggle('open'); $('#menu').setAttribute('aria-expanded', o); };
 $('#nl').onsubmit = e => {
   e.preventDefault();
@@ -1105,7 +1166,69 @@ function route() {
 }
 addEventListener('hashchange', route);
 const warm = (k = 0) => { if (k >= D.length) return; thumb(k); (window.requestIdleCallback || (f => setTimeout(f, 80)))(() => warm(k + 1)); };
-badge(); route(); warm();
+syncCur(); badge(); route(); warm();
+requestAnimationFrame(() => requestAnimationFrame(() => $('#cur').classList.add('ready')));
+})();
+</script>
+<script>
+/* ---------- page fade (to black when leaving for the other site, from black on arrival) + region prompt ---------- */
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,busy=false,tm=0;
+  function leave(href){
+    if(busy)return;busy=true;
+    document.body.classList.add('dk');
+    tm=setTimeout(function(){window.location.href=href},reduce?0:1050);
+  }
+  var go=document.getElementById('rgn-go'),base=go.getAttribute('href');
+  /* the switch link keeps the current #route, so the visitor lands on the same page of the other site */
+  function sync(){go.href=base+(location.hash||'')}
+  sync();addEventListener('hashchange',sync);
+  go.addEventListener('click',function(e){
+    if(e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+    sync();e.preventDefault();leave(go.href);
+  });
+  addEventListener('pageshow',function(e){if(e.persisted){clearTimeout(tm);busy=false;document.body.classList.remove('dk')}});
+
+  /* sits up in the header row when there is free space beside the Get licence button, otherwise just below the header */
+  function place(){
+    var bx=document.getElementById('region');bx.style.top='';
+    if(matchMedia('(max-width:760px)').matches)return;
+    var g=document.getElementById('gb');if(!g||!g.offsetParent)return;
+    var r=g.getBoundingClientRect(),left=document.documentElement.clientWidth-24-bx.offsetWidth;
+    if(left>=r.right+16)bx.style.top='calc(10px + env(safe-area-inset-top,0px))';
+  }
+  addEventListener('resize',place);
+  /* region prompt: top-right, shown on the first 5 opens of the site, countdown eases to a stop while hovered */
+  var box=document.getElementById('region'),bar=document.getElementById('rgn-bar'),KEY='mlx-region-dismissed',CNT='mlx-region-count',MAX=5;
+  try{
+    var seen=parseInt(localStorage.getItem(CNT)||'0',10)||0;
+    if(localStorage.getItem(KEY)||seen>=MAX){box.hidden=true;return}
+    localStorage.setItem(CNT,String(seen+1));
+  }catch(e){}
+  place();
+  var DUR=6000,p=0,rate=1,hold=false,run=false,last=0;
+  function hide(){run=false;box.classList.remove('on')}
+  function tick(now){
+    if(!run)return;
+    var dt=Math.min(64,now-last);last=now;
+    rate+=((hold?0:1)-rate)*(1-Math.exp(-dt/220));
+    p+=dt*rate/DUR;
+    bar.style.transform='scaleX('+Math.max(0,1-p)+')';
+    if(p>=1){hide();return}
+    requestAnimationFrame(tick);
+  }
+  box.addEventListener('pointerenter',function(){hold=true});
+  box.addEventListener('pointerleave',function(){hold=false});
+  box.addEventListener('focusin',function(){hold=true});
+  box.addEventListener('focusout',function(){hold=false});
+  setTimeout(function(){
+    box.classList.add('on');
+    setTimeout(function(){run=true;last=performance.now();requestAnimationFrame(tick)},600);
+  },1300);
+  document.getElementById('rgn-x').addEventListener('click',function(){
+    hide();
+    try{localStorage.setItem(KEY,'1')}catch(e){}
+  });
 })();
 </script>
 </body>
